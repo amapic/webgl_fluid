@@ -40,7 +40,7 @@ export default class Simulation{
             isBounce: false,
             dt: 0.014,
             isViscous: false,
-            BFECC: true
+            BFECC: false
         };
 
         const controls = new Controls(this.options);
@@ -119,7 +119,9 @@ export default class Simulation{
             boundarySpace: this.boundarySpace,
             src_p: this.fbos.pressure_0,
             src_v: this.fbos.vel_viscous0,
+            src_coloredPoints:this.fbos.vel_1,
             dst: this.fbos.vel_0,
+            
             dt: this.options.dt,
         });
     }

@@ -18,6 +18,9 @@ export default class Divergence extends ShaderPass{
                     velocity: {
                         value: simProps.src_v.texture
                     },
+                    coloredPoints: {
+                        value: simProps.src_coloredPoints.texture
+                    },
                     px: {
                         value: simProps.cellScale
                     },

@@ -4,7 +4,8 @@ import ShaderPass from "./ShaderPass";
 import Mouse from "./Mouse";
 
 import * as THREE from "three";
-
+import { TimerNode } from 'three/examples/jsm/nodes/utils/TimerNode.js';
+// const timer = new TimerNode();
 export default class ExternalForce extends ShaderPass{
     constructor(simProps){
         super({
@@ -12,6 +13,8 @@ export default class ExternalForce extends ShaderPass{
         });
 
         this.init(simProps);
+
+        this.timer=0.0;
     }
 
     init(simProps){
@@ -19,6 +22,8 @@ export default class ExternalForce extends ShaderPass{
         const mouseG = new THREE.PlaneBufferGeometry(
             1, 1
         );
+
+
 
         const mouseM = new THREE.RawShaderMaterial({
             vertexShader: mouse_vert,
@@ -36,6 +41,9 @@ export default class ExternalForce extends ShaderPass{
                 },
                 scale: {
                     value: new THREE.Vector2(simProps.cursor_size, simProps.cursor_size)
+                },
+                time: {
+                    value: new THREE.Vector2(0.0, 0.0)
                 }
             },
         })
@@ -45,6 +53,7 @@ export default class ExternalForce extends ShaderPass{
     }
 
     update(props){
+        // const delta = timer.getDelta();
         const forceX = Mouse.diff.x / 2 * props.mouse_force;
         const forceY = Mouse.diff.y / 2 * props.mouse_force;
 
@@ -59,6 +68,12 @@ export default class ExternalForce extends ShaderPass{
         uniforms.force.value.set(forceX, forceY);
         uniforms.center.value.set(centerX, centerY);
         uniforms.scale.value.set(props.cursor_size, props.cursor_size);
+        uniforms.time.value.set(uniforms.time.value.x + 0.1);
+
+        if (this.timer==0){
+            
+        }
+        // console.log(Date.now(),uniforms.time.value)
 
         super.update();
     }
