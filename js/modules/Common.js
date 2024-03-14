@@ -26,6 +26,7 @@ class Common{
         this.renderer = new THREE.WebGLRenderer( {
             antialias: true,
             alpha: true,
+
         });
 
         this.renderer.autoClear = false;

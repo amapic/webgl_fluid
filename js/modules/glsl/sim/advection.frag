@@ -23,7 +23,7 @@ void main() {
         float z = texture2D(velocity, uv).z;
         // a=1.0;
         // z=1.0;
-        gl_FragColor = vec4(newVel, a, z);
+        gl_FragColor = vec4(newVel, 0, 1);
     } else {
         vec2 spot_new = uv;
         vec2 vel_old = texture2D(velocity, uv).xy;

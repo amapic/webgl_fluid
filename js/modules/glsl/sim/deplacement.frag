@@ -1,7 +1,7 @@
 precision highp float;
-uniform sampler2D pressure;
+// uniform sampler2D pressure;
 uniform sampler2D velocity;
-// uniform sampler2D deplacement;
+uniform sampler2D deplacement;
 uniform vec2 px;
 uniform float dt;
 varying vec2 uv;
@@ -9,21 +9,22 @@ varying vec2 uv;
 void main(){
     float step = 1.0;
 
-    float p0 = texture2D(pressure, uv+vec2(px.x * step, 0)).r;
-    float p1 = texture2D(pressure, uv-vec2(px.x * step, 0)).r;
-    float p2 = texture2D(pressure, uv+vec2(0, px.y * step)).r;
-    float p3 = texture2D(pressure, uv-vec2(0, px.y * step)).r;
+    // float p0 = texture2D(pressure, uv+vec2(px.x * step, 0)).r;
+    // float p1 = texture2D(pressure, uv-vec2(px.x * step, 0)).r;
+    // float p2 = texture2D(pressure, uv+vec2(0, px.y * step)).r;
+    // float p3 = texture2D(pressure, uv-vec2(0, px.y * step)).r;
 
     vec2 v = texture2D(velocity, uv).xy;
-    vec2 gradP = vec2(p0 - p1, p2 - p3) * 0.5;
-    v = v - gradP * dt;
+    vec2 deplacement = texture2D(deplacement, uv).xy;
+    // vec2 gradP = vec2(p0 - p1, p2 - p3) * 0.5;
+    // v = v - gradP * dt;
 
     // float posx=0.;
 	// float posy=0.;
-	float coloredPointsZ=0.;
-	float coloredPointsA=0.;
-    // float displacement1=texture2D(deplacement, uv).b;
-    // float displacement2=texture2D(deplacement, uv).a;
+	// float coloredPointsZ=0.;
+	// float coloredPointsA=0.;
+    // float displacement1=texture2D(velocity, uv).b;
+    // float displacement2=texture2D(velocity, uv).a;
 	// if ( (uv.x-0.01*v.x)>0.0 && (uv.y-0.01*v.y)>0.0){
 	// 	coloredPointsZ=texture2D(coloredPoints, uv-0.01*v).b;
 	// 	coloredPointsA=texture2D(coloredPoints, uv-0.01*v).a;
@@ -40,5 +41,5 @@ void main(){
     // if (v.x>0.){
         // displacement2=30.123456;
     // }
-    gl_FragColor = vec4(v, 0,0);
+    gl_FragColor = vec4(deplacement + v*dt, 0.0,1);
 }

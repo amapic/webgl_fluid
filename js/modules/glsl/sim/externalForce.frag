@@ -12,10 +12,10 @@ void main(){
     float d = 1.0-min(length(circle), 1.0);
     float x=0.;
 	float y=0.;
-    if ((time.x - 5. * floor(time.x/5.)) < 2.0){
-		x=1.;
-		y=1.;
-	}
+    // if ((time.x - 5. * floor(time.x/5.)) < 2.0){
+	// 	x=1.;
+	// 	y=1.;
+	// }
     d *= d;
-    gl_FragColor = vec4(force * d, x, y);
+    gl_FragColor = vec4(force * d, 0, 0.9);
 }

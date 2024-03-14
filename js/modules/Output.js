@@ -26,6 +26,9 @@ export default class Output{
                     velocity: {
                         value: this.simulation.fbos.vel_0.texture
                     },
+                    deplacement: {
+                        value: this.simulation.fbos.deplacement.texture
+                    },
                     boundarySpace: {
                         value: new THREE.Vector2()
                     }

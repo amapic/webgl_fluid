@@ -9,6 +9,7 @@ import Viscous from "./Viscous";
 import Divergence from "./Divergence";
 import Poisson from "./Poisson";
 import Pressure from "./Pressure";
+import Deplacement from "./Deplacement";
 
 export default class Simulation{
     constructor(props){
@@ -28,6 +29,8 @@ export default class Simulation{
             // for calc poisson equation 
             pressure_0: null,
             pressure_1: null,
+
+            deplacement:null,
         };
 
         this.options = {
@@ -37,7 +40,7 @@ export default class Simulation{
             resolution: 0.5,
             cursor_size: 100,
             viscous: 30,
-            isBounce: false,
+            isBounce: true,
             dt: 0.014,
             isViscous: false,
             BFECC: false
@@ -119,8 +122,19 @@ export default class Simulation{
             boundarySpace: this.boundarySpace,
             src_p: this.fbos.pressure_0,
             src_v: this.fbos.vel_viscous0,
-            src_coloredPoints:this.fbos.vel_1,
+            src_deplacement:this.fbos.deplacement,
             dst: this.fbos.vel_0,
+            
+            dt: this.options.dt,
+        });
+
+        this.deplacement = new Deplacement({
+            cellScale: this.cellScale,
+            boundarySpace: this.boundarySpace,
+            src_p: this.fbos.pressure_0,
+            src_v: this.fbos.vel_viscous0,
+            src_deplacement:this.fbos.deplacement,
+            dst: this.fbos.deplacement,
             
             dt: this.options.dt,
         });
@@ -178,6 +192,10 @@ export default class Simulation{
             iterations: this.options.iterations_poisson,
         });
 
-        this.pressure.update({ vel , pressure});
+        const vel2=this.pressure.update({ vel , pressure});
+
+        let deplacement = this.fbos.deplacement;
+
+        this.deplacement.update({ vel2,deplacement });
     }
 }

@@ -1,13 +1,13 @@
 import face_vert from "./glsl/sim/face.vert";
-import pressure_frag from "./glsl/sim/pressure.frag";
+import deplacement_frag from "./glsl/sim/deplacement.frag";
 import ShaderPass from "./ShaderPass";
 
-export default class Divergence extends ShaderPass{
+export default class Deplacement extends ShaderPass{
     constructor(simProps){
         super({
             material: {
                 vertexShader: face_vert,
-                fragmentShader: pressure_frag,
+                fragmentShader: deplacement_frag,
                 uniforms: {
                     boundarySpace: {
                         value: simProps.boundarySpace
@@ -18,9 +18,9 @@ export default class Divergence extends ShaderPass{
                     velocity: {
                         value: simProps.src_v.texture
                     },
-                    // deplacement: {
-                    //     value: simProps.src_deplacement.texture
-                    // },
+                    deplacement: {
+                        value: simProps.src_deplacement.texture
+                    },
                     px: {
                         value: simProps.cellScale
                     },
@@ -35,13 +35,12 @@ export default class Divergence extends ShaderPass{
         this.init();
     }
 
-    update({vel, pressure}){
-        // console.log(pressure.texture)
-        this.uniforms.velocity.value = vel.texture;
-        this.uniforms.pressure.value = pressure.texture;
-        // this.uniforms.deplacement.value = deplacement.texture;
+    update({vel2,deplacement}){
+        // console.log("aa")
+        this.uniforms.velocity.value = vel2.texture;
+        // this.uniforms.pressure.value = pressure.texture;
+        this.uniforms.deplacement.value = deplacement.texture;
         super.update();
-		return this.props.output;
     }
     
 }
